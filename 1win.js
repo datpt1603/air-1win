@@ -92,6 +92,17 @@ class OneWin {
 
             return res.data;
         } catch (error) {
+            if (error.response.status === 401) {
+                const FormData = require('form-data');
+                let data = new FormData();
+                data.append('referrer_tg_id', '673750261');
+
+                let url = `${this.authUrl}?user=${userData.userEncoded}&chat_instance=${userData.chat_instance}&start_param=refId673750261&auth_date=${userData.auth_date}&hash=${userData.hash}`;
+                const res = await axios.post(url, {}, { headers: {...headers, 'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryuKQH46UyoMDoADk1'} });
+
+                return res.data;
+            }
+
             this.log(`Đã xảy ra lỗi: ${error}`, 'error');
         }
     }
